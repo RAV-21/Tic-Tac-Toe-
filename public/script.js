@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io(); // Automatically connects to the Render URL
 let roomCode, turnTimer, restartTimer;
 let timeLeft = 10;
 let currentPlayer = "X";
@@ -24,7 +24,6 @@ function startTurnTimer() {
         document.getElementById('timer').textContent = timeLeft + "s";
         if (timeLeft <= 0) {
             clearInterval(turnTimer);
-            // If time is out, current player loses turn
             currentPlayer = currentPlayer === "X" ? "O" : "X"; 
             document.getElementById('status').textContent = `Time out! Player ${currentPlayer}'s turn`;
             startTurnTimer();
@@ -90,10 +89,10 @@ function showRestartOption() {
 
 socket.on('gameRestarted', () => {
     clearInterval(restartTimer);
-    location.reload(); // Fully resets the game for both
+    location.reload();
 });
 
 socket.on('roomClosed', () => {
-    alert("Room Terminated - Player did not respond.");
+    alert("Room Terminated - Partner did not respond.");
     location.reload();
 });
